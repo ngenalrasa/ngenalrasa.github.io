@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>Katalog Ngenal Rasa - Order &amp; Keranjang Interaktif</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+    ::-webkit-scrollbar { display: none; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#cb4914",
+            "primary-dark": "#a73400",
+            secondary: "#fe7031",
+            surface: "#f8f9ff",
+            "surface-dim": "#d0dbed"
+          }
+        }
+      }
+    }
+</script>
+</head>
+<body class="bg-[#fcfcff] text-[#121c2a] antialiased min-h-screen flex flex-col pb-32">
+<main class="w-full max-w-xl mx-auto px-4 py-5 flex flex-col items-center">
+<header class="w-full flex flex-col items-center text-center pb-2 mb-2">
+<div class="w-48 sm:w-52 flex items-center justify-center mb-2">
+<img alt="Ngenal Rasa Logo" class="w-full h-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDlsXpYObhPmxkTfs1u-iOLqnGM6m3e_-O8-6Wtu6fUD2962KEuIv2_ypAy-Y_woF6XiB3tkxp5pNxQ087S0y0CElNgGZo6DFWC18EqECATfQmiKLEWmyWOmzt0E4NhKpGAZqK8wQzL3e0XT56xeS5ccSrc740VwYFq7DY8ZWPmoIyAXHb1De7P2Plt8p4kmDv6YwB8zL35FhEp4lH1-BnzyeFcKrfAO0xeObjKMBzm0fEFcnIpRZcXdH7qT5Bevh-ag"/>
+</div>
+<h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight mb-1.5">Kenalan Dulu Sama Menunya</h1>
+<button class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200 transition-colors duration-150 mb-3 text-slate-800 text-xs font-semibold" onclick="document.getElementById('about-modal').classList.remove('hidden')" type="button">
+<span class="material-symbols-outlined text-sm text-[#cb4914]" style="font-variation-settings: 'FILL' 1;">info</span>
+<span>Tentang Ngenal Rasa</span>
+</button>
+<div class="w-full max-w-sm px-1 mb-3">
+<div class="relative flex items-center w-full">
+<span class="material-symbols-outlined text-slate-400 absolute left-3 pointer-events-none text-lg">search</span>
+<input class="w-full pl-9 pr-4 py-2 text-xs sm:text-sm rounded-full bg-slate-100 hover:bg-slate-200/80 focus:bg-white focus:ring-2 focus:ring-[#cb4914]/30 border-0 outline-none text-slate-800 transition-all" id="product-search-input" oninput="applyFilters()" placeholder="Cari jajanan atau menu..." type="text"/>
+</div>
+</div>
+<div class="w-full max-w-sm px-1 mb-3.5">
+<div class="flex items-center justify-between w-full gap-1.5" id="category-filter-group">
+<button class="cat-filter-btn flex-1 text-center py-1.5 px-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-slate-100 hover:bg-orange-50 hover:text-[#cb4914] text-slate-700 transition-all whitespace-nowrap" data-category-btn="KUE" onclick="setCategoryFilter('KUE')" type="button">KUE</button>
+<button class="cat-filter-btn flex-1 text-center py-1.5 px-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-slate-100 hover:bg-orange-50 hover:text-[#cb4914] text-slate-700 transition-all whitespace-nowrap" data-category-btn="ROTI" onclick="setCategoryFilter('ROTI')" type="button">ROTI</button>
+<button class="cat-filter-btn flex-1 text-center py-1.5 px-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-slate-100 hover:bg-orange-50 hover:text-[#cb4914] text-slate-700 transition-all whitespace-nowrap" data-category-btn="GURIH &amp; RENYAH" onclick="setCategoryFilter('GURIH &amp; RENYAH')" type="button">GURIH &amp; RENYAH</button>
+<button class="cat-filter-btn flex-1 text-center py-1.5 px-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-slate-100 hover:bg-orange-50 hover:text-[#cb4914] text-slate-700 transition-all whitespace-nowrap" data-category-btn="MINUMAN" onclick="setCategoryFilter('MINUMAN')" type="button">MINUMAN</button>
+</div>
+</div>
+<div class="w-full max-w-sm px-1 mb-3">
+<div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden shadow-sm">
+<div class="flex h-full w-full transition-transform duration-700 ease-in-out" id="promo-carousel-track">
+<div class="w-full h-full flex-shrink-0 relative">
+<img alt="Promo Kenangan Buat Tamu" class="w-full h-full object-cover select-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_B5WwnxUTTxtQkJpBShs8FBIcCgpiuomub7EiRdz5nPU63ua47sNXsOHNXdMrpYvmYibdcOHGGB0Q0cKyK0I1LwVlo-COnSAu2EbB0pw0KCFJ1CI7fVxU_wucMQyFv8xKR5GlprtKu93l_q_ogHMmtGQkY90sXL-cEhLRL3Z-l7Dy5aHAaJMTZbmdoF7rJw-RI5ibMZc1bFXpg9U4useTJa7FEz7Y3f-4FZivqEFojYNlQeygSYRzfeD4OfKMOsWVKQ"/>
+</div>
+<div class="w-full h-full flex-shrink-0 relative">
+<img alt="Promo Gofood Jajanan" class="w-full h-full object-cover select-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6rzlJTk3Sjhf_sbXmrn76bsOt5oATQgjMYazAMRMZcUdXilbfftfhWRBbHFasm6RFbtURnrtKrlN-ZDkzNNqxL_DLMAUiR27fZWP_bRKCQts3NfMCd3YcPQpp_ad0vlqGyHQIgaPUjj8Mj43hSdXHlrJCYI2kS9avMdjH-PWcM0s9M_j_OTstGuVcDIBr76gGxwIzz-DPdzcBkkgpRYkDzyU0oUP10sWzte653KgaNVcCD1jfpRfe77IQOt6OBDIuRQ"/>
+</div>
+</div>
+<div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10">
+<button class="carousel-dot w-5 h-1.5 rounded-full transition-all duration-300 bg-white" onclick="goToSlide(0)" type="button"></button>
+<button class="carousel-dot w-2 h-1.5 rounded-full transition-all duration-300 bg-white/50" onclick="goToSlide(1)" type="button"></button>
+</div>
+</div>
+</div>
+<div class="w-full max-w-sm px-1 mb-2">
+<div class="w-full rounded-xl p-3 sm:p-3.5 text-left shadow-sm bg-slate-100 border border-slate-200/50">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-[#cb4914] text-lg select-none">info</span>
+<h2 class="text-sm font-bold text-[#cb4914] tracking-tight">Informasi &amp; Ketentuan Order</h2>
+</div>
+<div class="grid grid-cols-2 gap-x-3 gap-y-2 pt-0.5">
+<div class="flex items-start gap-1.5">
+<span class="material-symbols-outlined text-slate-500 text-sm mt-0.5">schedule</span>
+<p class="text-[11px] sm:text-xs text-slate-700 leading-tight"><strong class="text-slate-900 font-bold">PO H–2</strong> (Made by order)</p>
+</div>
+<div class="flex items-start gap-1.5">
+<span class="material-symbols-outlined text-slate-500 text-sm mt-0.5">shopping_bag</span>
+<p class="text-[11px] sm:text-xs text-slate-700 leading-tight"><strong class="text-slate-900 font-bold">Min. 10 pcs</strong> (bisa campur)</p>
+</div>
+<div class="flex items-start gap-1.5">
+<span class="material-symbols-outlined text-slate-500 text-sm mt-0.5">storefront</span>
+<p class="text-[11px] sm:text-xs text-slate-700 leading-tight"><strong class="text-slate-900 font-bold">Ambil Mandiri</strong> / kurir sendiri</p>
+</div>
+<div class="flex items-start gap-1.5">
+<span class="material-symbols-outlined text-slate-500 text-sm mt-0.5">qr_code_2</span>
+<p class="text-[11px] sm:text-xs text-slate-700 leading-tight"><strong class="text-slate-900 font-bold">DP 50%</strong> via QRIS</p>
+</div>
+</div>
+</div>
+</div>
+</header>
+<div class="w-full grid grid-cols-2 gap-3 sm:gap-4 pt-1" id="product-grid"></div>
+<footer class="w-full mt-8 pt-4 flex flex-col items-center gap-3 text-center border-t border-slate-200/60">
+<div class="flex flex-col">
+<span class="text-xs font-bold text-slate-800">Ngenal Rasa • Selalu Ngangenin</span>
+<span class="text-[11px] text-slate-500">Selalu Ngangenin ~ buat siapa aja, kapan aja.</span>
+</div>
+<div class="flex items-center justify-center gap-5 my-1">
+<a class="text-slate-400 hover:text-slate-700 transition-colors p-1" href="https://www.tiktok.com/@nila.ngenalrasa" rel="noopener noreferrer" target="_blank" title="TikTok @nila.ngenalrasa">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298-.002.595.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.82 4.49 6.27 6.27 0 0 0 1.96-4.49V8.6a8.2 8.2 0 0 0 4.81 1.55v-3.46Z"></path></svg>
+</a>
+<a class="text-slate-400 hover:text-slate-700 transition-colors p-1" href="https://maps.app.goo.gl/M5itvfw6upk9tCfm9" rel="noopener noreferrer" target="_blank" title="Google Maps Ngenal Rasa">
+<span class="material-symbols-outlined text-2xl">location_on</span>
+</a>
+<a class="text-slate-400 hover:text-slate-700 transition-colors p-1" href="https://wa.me/6287898309510" rel="noopener noreferrer" target="_blank" title="WhatsApp 0878-9830-9510">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.24-.74-.66-1.25-1.48-1.39-1.73-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1s.9 2.44 1.03 2.61c.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.44.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.12-.22-.19-.47-.32"></path></svg>
+</a>
+</div>
+<p class="text-[10px] text-slate-400">Harga sewaktu-waktu bisa berubah.</p>
+</footer>
+</main>
+<div class="fixed inset-0 bg-black/60 z-50 hidden transition-opacity flex items-end sm:items-center justify-center p-0 sm:p-4" id="product-detail-modal">
+<div class="bg-white w-full max-w-md rounded-t-2xl sm:rounded-2xl max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
+<div class="p-3.5 border-b border-slate-100 flex items-center justify-between">
+<span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Detail Jajanan</span>
+<button class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors" onclick="closeProductModal()" type="button">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+<div class="p-4 overflow-y-auto flex-1 flex flex-col items-center text-center">
+<div class="w-48 h-48 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center p-2 mb-3 relative">
+<span class="absolute top-2.5 right-2.5 bg-orange-500 text-white text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow-md items-center gap-1 hidden" id="detail-modal-fav-badge">🔥 Favorit</span>
+<img alt="Detail Produk" class="max-w-full max-h-full object-contain drop-shadow-sm" id="detail-modal-img" src=""/>
+</div>
+<h3 class="text-lg font-bold text-slate-900 leading-tight mb-1 flex items-center justify-center gap-1.5" id="detail-modal-name"></h3>
+<p class="text-xs text-slate-500 mb-3" id="detail-modal-desc"></p>
+<div class="inline-flex items-baseline gap-1 mb-4">
+<span class="text-xl font-extrabold text-[#cb4914]" id="detail-modal-price"></span>
+<span class="text-xs text-slate-400 font-semibold uppercase">/ pcs</span>
+</div>
+<div class="w-full bg-slate-50 rounded-xl p-3 border border-slate-100 flex items-center justify-between mb-4">
+<div class="text-left">
+<span class="text-xs font-semibold text-slate-600 block">Jumlah Pesanan:</span>
+<span class="text-xs font-bold text-[#cb4914]" id="detail-modal-subtotal">Total: Rp 0</span>
+</div>
+<div class="flex items-center gap-3 bg-white px-2 py-1 rounded-full border border-slate-200 shadow-sm">
+<button class="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold flex items-center justify-center transition-colors text-sm" onclick="changeDetailQty(-1)" type="button">-</button>
+<input class="w-10 text-center text-sm font-bold text-slate-900 bg-transparent border-0 outline-none p-0 focus:ring-0" id="detail-modal-qty" min="1" onchange="handleDetailQtyInputChange(this.value)" oninput="handleDetailQtyInputChange(this.value)" type="number" value="1"/>
+<button class="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold flex items-center justify-center transition-colors text-sm" onclick="changeDetailQty(1)" type="button">+</button>
+</div>
+</div>
+<div class="w-full flex flex-col gap-2 pt-1">
+<button class="w-full py-3 px-4 rounded-xl bg-[#cb4914] hover:bg-[#a73400] text-white font-bold text-sm shadow-md flex items-center justify-center gap-2 transition-all" onclick="submitAddToCartFromDetail()" type="button">
+<span class="material-symbols-outlined text-lg">add_shopping_cart</span>
+<span>Tambah ke Keranjang</span>
+</button>
+<button class="w-full py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition-colors" onclick="closeProductModal()" type="button">Tambah Produk Lain</button>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed bottom-3 left-1/2 -translate-x-1/2 w-full max-w-md px-3 z-40 hidden transition-all duration-300" id="floating-cart-bar">
+<div class="bg-slate-900 text-white rounded-2xl p-3 shadow-2xl flex items-center justify-between gap-3 border border-slate-700/50">
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center gap-2">
+<span class="bg-[#cb4914] text-white text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap" id="cart-badge-count">0 item</span>
+<span class="text-sm font-extrabold truncate text-white" id="cart-total-display">Rp 0</span>
+</div>
+<div class="text-[11px] text-slate-300 mt-0.5 truncate flex items-center gap-1.5">
+<span>DP 50%: <b class="text-amber-400" id="cart-dp-display">Rp 0</b></span>
+<span class="text-[9px] bg-amber-500/30 text-amber-300 px-1.5 py-0.2 rounded font-semibold hidden" id="min-order-pill">Min. 10 pcs</span>
+</div>
+</div>
+<button class="bg-[#cb4914] hover:bg-[#a73400] text-white font-bold text-xs py-2.5 px-4 rounded-xl flex items-center gap-1.5 transition-colors shadow-md whitespace-nowrap" onclick="openCartModal()" type="button">
+<span class="material-symbols-outlined text-sm">shopping_cart</span>
+<span>Lihat Keranjang</span>
+</button>
+</div>
+</div>
+<div class="fixed inset-0 bg-black/60 z-50 hidden transition-opacity flex items-end sm:items-center justify-center p-0 sm:p-4" id="cart-modal">
+<div class="bg-white w-lg max-w-lg rounded-t-2xl sm:rounded-2xl max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
+<div class="p-3.5 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#cb4914] text-xl">shopping_cart</span>
+<div>
+<h2 class="text-sm font-bold text-slate-900 leading-tight" id="cart-modal-title">Keranjang Pesanan</h2>
+<span class="text-[11px] text-slate-500" id="cart-modal-item-count">0 pcs jajanan dipilih</span>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center bg-white hover:bg-slate-200 text-slate-600 border border-slate-200 transition-colors" onclick="closeCartModal()" type="button">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+<div class="p-4 overflow-y-auto flex-1 flex flex-col gap-3" id="cart-step-items">
+<div class="bg-orange-50/80 border border-orange-200/60 rounded-xl p-2.5 text-xs text-slate-700 flex items-start gap-2">
+<span class="material-symbols-outlined text-[#cb4914] text-base mt-0.5">info</span>
+<div>
+<strong class="text-slate-900 font-bold block">Ketentuan PO Ngenal Rasa:</strong>
+<span class="text-[11px] text-slate-600 block">PO H-2 • Minimal 10 pcs (bisa campur jajanan apa saja) • Ambil Mandiri / kurir sendiri • DP 50% via QRIS.</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<span class="text-xs font-bold text-slate-700 uppercase tracking-wide">Menu yang Dipilih</span>
+<div class="flex flex-col divide-y divide-slate-100 rounded-xl bg-slate-50 border border-slate-200/80 p-2" id="cart-items-list"></div>
+</div>
+<div class="flex flex-col gap-2 bg-slate-50 rounded-xl p-3 border border-slate-200/80">
+<div class="flex justify-between text-slate-600">
+<span>Total Jumlah:</span>
+<span class="font-bold text-slate-800" id="summary-total-qty">0 pcs</span>
+</div>
+<div class="flex justify-between text-slate-600">
+<span>Subtotal Jajanan:</span>
+<span class="font-extrabold text-slate-900 text-sm" id="summary-total-price">Rp 0</span>
+</div>
+<div class="flex justify-between text-slate-600 items-center text-[11px]">
+<span>Biaya Kemasan/Box:</span>
+<span class="font-medium text-slate-600 italic">Dihitung Admin (menyesuaikan ukuran)</span>
+</div>
+<div class="flex flex-col bg-orange-100/60 p-2.5 rounded-lg text-[#a73400] mt-1 gap-0.5">
+<div class="flex justify-between items-center">
+<span class="font-semibold text-xs">Wajib DP 50% Jajanan (Kunci Slot):</span>
+<span class="font-extrabold text-sm" id="summary-dp-price">Rp 0</span>
+</div>
+<span class="text-[10px] text-slate-500 leading-tight">*Biaya box/kardus akan diinformasikan dan ditambahkan oleh admin via WA saat konfirmasi.</span>
+</div>
+</div>
+</div>
+<div class="p-3 border-t border-slate-100 bg-white flex items-center gap-2" id="cart-step-items-actions">
+<button class="flex-1 py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition-colors text-center" onclick="closeCartModal()" type="button">Tambah Produk Lain</button>
+<button class="flex-1 py-2.5 px-3 rounded-xl bg-[#cb4914] hover:bg-[#a73400] text-white font-bold text-xs transition-colors text-center shadow-md flex items-center justify-center gap-1.5" id="btn-proceed-checkout" onclick="proceedToCheckoutStep()" type="button">
+<span>Lanjut ke Pemesanan</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="p-4 overflow-y-auto flex-1 flex-col gap-3.5 hidden" id="cart-step-form">
+<button class="inline-flex items-center gap-1 text-xs font-semibold text-[#cb4914] hover:underline self-start" onclick="backToItemsStep()" type="button">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+<span>Kembali cek pesanan</span>
+</button>
+<div class="flex flex-col gap-3">
+<div class="hidden bg-red-50 border border-red-200 text-red-600 rounded-xl p-2.5 text-xs flex items-center gap-2" id="order-validation-error">
+<span class="material-symbols-outlined text-base flex-shrink-0 text-red-500">error</span>
+<span class="font-medium leading-tight" id="order-validation-error-text"></span>
+</div>
+<div>
+<label class="text-xs font-bold text-slate-800 block mb-1">Nama Pemesan *</label>
+<input class="w-full px-3 py-2 text-xs rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#cb4914] outline-none transition-all font-medium text-slate-800" id="input-customer-name" placeholder="Contoh: Ibu Rina / Budi" type="text"/>
+</div>
+<div>
+<label class="text-xs font-bold text-slate-800 block mb-1">Nomor WhatsApp *</label>
+<input class="w-full px-3 py-2 text-xs rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#cb4914] outline-none transition-all font-medium text-slate-800" id="input-customer-phone" placeholder="Contoh: 08123456789" type="tel"/>
+</div>
+<div>
+<label class="text-xs font-bold text-slate-800 block mb-1">Kapan diambil pesanannya (Tanggal &amp; Jam) *</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined text-slate-400 absolute left-3 text-base">calendar_clock</span>
+<input class="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#cb4914] outline-none transition-all font-medium text-slate-800" id="input-pickup-time" placeholder="Contoh: Sabtu, 15 Okt 2026 - Pk 10:00 WIB" type="text"/>
+</div>
+<span class="text-[10px] text-slate-400 mt-0.5 block">*Pesanan minimal PO H-2</span>
+</div>
+<div>
+<label class="text-xs font-bold text-slate-800 block mb-1.5">Metode Pembayaran *</label>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+<label class="payment-option-card flex items-start gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-orange-50/50 cursor-pointer transition-all">
+<input checked="" class="text-[#cb4914] focus:ring-[#cb4914] mt-0.5" name="payment_method" type="radio" value="DP 50% Via QRIS"/>
+<div class="flex flex-col text-left">
+<span class="text-xs font-bold text-slate-800">DP 50% Via QRIS</span>
+<span class="text-[10px] text-[#cb4914] font-semibold" id="dp-method-subtext">Kunci slot (Rp 0)</span>
+</div>
+</label>
+<label class="payment-option-card flex items-start gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-orange-50/50 cursor-pointer transition-all">
+<input class="text-[#cb4914] focus:ring-[#cb4914] mt-0.5" name="payment_method" type="radio" value="Cash Via QRIS"/>
+<div class="flex flex-col text-left">
+<span class="text-xs font-bold text-slate-800">Cash Via QRIS</span>
+<span class="text-[10px] text-slate-500" id="cash-method-subtext">Bayar lunas 100%</span>
+</div>
+</label>
+</div>
+</div>
+<div>
+<label class="text-xs font-bold text-slate-800 block mb-1.5">Jenis Packing / Kemasan Dus *</label>
+<div class="grid grid-cols-1 gap-2 mb-2">
+<label class="payment-option-card flex items-start gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-orange-50/50 cursor-pointer transition-all">
+<input checked="" class="text-[#cb4914] focus:ring-[#cb4914] mt-0.5" name="packing_method" type="radio" value="Snack Box Satuan (Per Box)"/>
+<div class="flex flex-col text-left">
+<span class="text-xs font-bold text-slate-800">Snack Box Satuan (Per Box)</span>
+<span class="text-[10px] text-slate-500">Dus per porsi tamu (biaya dus dihitung admin)</span>
+</div>
+</label>
+<label class="payment-option-card flex items-start gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-orange-50/50 cursor-pointer transition-all">
+<input class="text-[#cb4914] focus:ring-[#cb4914] mt-0.5" name="packing_method" type="radio" value="Dus Besar / Satukan Sekaligus"/>
+<div class="flex flex-col text-left">
+<span class="text-xs font-bold text-slate-800">Dus Besar / Satukan Sekaligus</span>
+<span class="text-[10px] text-slate-500">Cocok untuk prasmanan / disajikan bersama</span>
+</div>
+</label>
+<label class="payment-option-card flex items-start gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-orange-50/50 cursor-pointer transition-all">
+<input class="text-[#cb4914] focus:ring-[#cb4914] mt-0.5" name="packing_method" type="radio" value="Plastik Standar Biasa"/>
+<div class="flex flex-col text-left">
+<span class="text-xs font-bold text-slate-800">Plastik Standar Biasa</span>
+<span class="text-[10px] text-slate-500">Kemasan ekonomis tanpa kardus tambahan</span>
+</div>
+</label>
+</div>
+<div>
+<label class="text-xs font-semibold text-slate-700 block mb-1">Catatan Pembagian Box (Opsional)</label>
+<textarea class="w-full px-3 py-2 text-xs rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#cb4914] outline-none transition-all font-medium text-slate-800 resize-none" id="input-box-notes" placeholder="Contoh: Dibagi jadi 15 box, masing-masing isi 1 lemper, 1 bolen..." rows="2"></textarea>
+</div>
+</div>
+<div>
+<label class="text-xs font-bold text-slate-800 block mb-1">Pengiriman</label>
+<div class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-800 text-xs font-semibold">
+<span class="material-symbols-outlined text-[#cb4914] text-lg">storefront</span>
+<span>Ambil Mandiri / kurir sendiri</span>
+<span class="text-[10px] text-slate-500 font-normal ml-auto">(Bisa ambil sendiri / via ojol)</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-3 border-t border-slate-100 bg-white flex flex-col gap-2 hidden" id="cart-step-form-actions">
+<div class="bg-orange-50/60 border border-orange-200/80 rounded-xl p-2.5 text-xs text-slate-700 flex items-start gap-2 mb-1">
+<span class="material-symbols-outlined text-[#cb4914] text-base mt-0.5">receipt_long</span>
+<div class="flex flex-col text-left">
+<strong class="text-slate-900 font-bold text-[11px]">Tips Simpan Pesanan:</strong>
+<span class="text-[10px] text-slate-600 leading-tight">Anda dapat mengunduh ringkasan pesanan sebagai bukti sebelum atau sesudah kirim chat ke WhatsApp.</span>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-2 w-full">
+<button class="flex-1 py-3 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs shadow-sm flex items-center justify-center gap-1.5 transition-all border border-slate-200" onclick="downloadOrderReceipt()" type="button">
+<span class="material-symbols-outlined text-base text-slate-700">download</span>
+<span>Download Struk</span>
+</button>
+<button class="flex-1 py-3 px-4 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 transition-all" onclick="validateAndSubmitOrder()" type="button">
+<svg class="w-4 h-4 fill-current" viewbox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.24-.74-.66-1.25-1.48-1.39-1.73-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1s.9 2.44 1.03 2.61c.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.44.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.12-.22-.19-.47-.32"></path></svg>
+<span>Order via WhatsApp</span>
+</button>
+</div>
+<p class="text-[10px] text-center text-slate-400 mt-1">Rincian pesanan dan pilihan kemasan akan terisi otomatis di chat WhatsApp admin Ngenal Rasa.</p>
+</div>
+</div>
+</div>
+<div class="fixed inset-0 bg-black/60 z-50 hidden transition-opacity flex items-center justify-center p-4" id="about-modal">
+<div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl flex flex-col text-left max-h-[85vh] overflow-y-auto">
+<div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
+<h3 class="text-sm font-bold text-slate-900">Tentang Ngenal Rasa</h3>
+<button class="w-7 h-7 rounded-full flex items-center justify-center bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors" onclick="document.getElementById('about-modal').classList.add('hidden')" type="button">
+<span class="material-symbols-outlined text-base">close</span>
+</button>
+</div>
+<div class="text-xs text-slate-700 leading-relaxed space-y-2.5">
+<p class="font-bold text-[#cb4914]">Hi, #TemenNgenalRasa</p>
+<p>Dulu, jajanan kayak gini yang bikin nangis minta terus sama emak, sampe rela nunggu di depan warung.</p>
+<p>Bukan cuma soal rasa yang manis, gurih, atau teksturnya yang lembut, tapi ada cerita masa kecil yang selalu ngangenin di setiap gigitannya.</p>
+<p>Sekarang, kami hadirkan kembali kehangatan itu lewat <b>Ngenal Rasa</b>. Karena buat kami, ini bukan sekadar jajanan pasar, tapi cara sederhana buat ngerawat kenangan.</p>
+<p>Yuk, kenalan lagi sama rasa yang dulu pernah ada.</p>
+</div>
+</div>
+</div>
+<script>
+    const PRODUCTS = [
+      { id: "bakpao-kukus", name: "Bakpao Kukus", desc: "Cokelat/ kacang", price: 2000, category: "ROTI", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuABg02Zc-Jqj2CnSUQWi7kqCtURTazAeZY4pr7ODJy8eI-4_7M7FHqXmgNfDzbL8wsfRKFoWnV21NQjWBkAciT4rHS-dGyQiagrYOZog2etyKpP-P4nyrjTxhOodGR1RgKAXSUtpy9ZKY5Xe9oQtqqNZVD76cIY0A9lWww7jO9SEcNK75lFKfwgDuIphEwjG4sHE9uJUT32nrRbTpizJJ7quVEnnYTvIyRkRHTo8Rqrg52O2_TDMmPtd5wzlxNUfnpMqg" },
+      { id: "roti-belah", name: "Roti Belah", desc: "messes cokelat", price: 3000, category: "ROTI", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuA3wjUnPD8uAhvmaHTsF8AEpC7epLQj_JFNILG3mYPa54TQYcBrpjihBFHRZ4YJgfhvQlUKCvuYnckoF6LCvlWAhxvcJTxFK4KRLDZzgkpxCt9c21Ux9j80AIVZr3f7bS6vDSc_SrbXpvmgPhJ3hhaCO1PWHZaJlFIk4PkqYdzpH_5AhtwUEs6uGtqACf7jLexu-4b-mH7DipCNOgYNVJYmGkmDJENnBpptNg3ZspU4NN8cD3DO0uMAMwjXqIWIsktxCQ" },
+      { id: "roti-sisir", name: "Roti Sisir", desc: "empuk lembut", price: 3000, category: "ROTI", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDO8xDsti4eY-X7-63IRV3lPAU-icysQ497z1ZZAUkOzJ3-iqL_Sfn7xkRUNLXDkbDTqz4s9rf3eoNrFcocOM1OZoEw5RYSm4EVhgugHBoiZV5OTVTueEO2wxd_fezg7zY__G5nwCvQvnd13txLxfMqVPEiDBEAqVMjPWzofZ7Ufhb07RZ9v0mpB3E5UTgxeHiIeIjdRmrR3-GLTtHDjKeE5ovbAPwmhtR8kL3rLU6Y471-ZyPozXNbjvm3AyOofN7e9A" },
+      { id: "roti-sosis", name: "Roti Sosis", desc: "Roti lembut topping sosis gurih", price: 3000, category: "ROTI", isFavorite: true, img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDuZ2_-boqDqA7DprA7w7d5-wLHepg7rfrykdfwZSbzJMguC5VQHuJLvBd6fbU1lxg-SJ9Izn1moOeQ7Og-W6aAzjwnyuriaFBlb_GaUzjfNN7gGZe2oK2kP-p8qQ-haYR8a7ABZzoGxp_oLFBkMynQ_SehrfgMd9gflETCTMCsxlqXp-8tFNowh4i1PvQ0_ocm8fX73_dihjuws7SWjldjzhvy0Vww6IW8RO2vshqtM4yiWikLTwRNmHJdXqNYXrKTrQ" },
+      { id: "roti-keju-bundar", name: "Roti Keju Bundar", desc: "Roti manis tabur keju parut gurih", price: 4000, category: "ROTI", isFavorite: true, img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBevvw_M2m73Jmco16AGXCD5uuGTLKqqx7H_-CN73QoubLWMiUA3jqTfJeEzABjxRdVNbzEc__JroxP36gmeBDhSO92qR3npwMM8Ra46homDKG1fwyewNAek0frgCp57-h6j4yqL3jtvkTYDG0D9-So52A42JL-fP1uIDh-zbyngJ3p_Bm7xB7hsh7yraNtGX_UxWIwUytDvPg-S-s9irTQtk_nXlG7pvNOBkgd5CCies_EieGqByjjpODxfHheJFir0A" },
+      { id: "roti-keju-nyus", name: "Roti Keju Nyus", desc: "Lembut dan empuk", price: 4000, category: "ROTI", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBDG3QxZyVplzmd4ZfzFuk3--nsZwed3QccKhlv11IAGygE2fnUTgn1Hs5M9j5WNT1fdZMf5ijpiHms0G0ksUk7VruG2EbMSBCneHOrot58uxVpCFLBHP_s2VicWL860N8TZ2q_qdUGhk8f6eD8RiCC15sy1fVW8HyasvLqabEdQmnSY9EYz3dzMfiIOiW5Ol27rF23pHPFghZ3ZDkm7kekVnppFl4YPMPpjuokOEVvUq_9g2-ixsFYyRpbUYh2WTJnGQ" },
+      { id: "roti-zebra", name: "Roti Zebra", desc: "Lembut aroma pandan", price: 2000, category: "ROTI", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCmSnRWmVCq085ueuazRuNEb9-hucbcbXrstVeT3we4xlWWJ5Pg81wTAdzL8Ogd8eqyfcNC3Ta54bfPKqau6_-Mld5FEsiAksNTv0pSEt_uprtcyF1MQV8gQS9NdA-9X-_PTYuOxtm8q8jxIv30gfohlIgXf1xTwl7AmvGw-Ydqu15LXl6imYhkv4hGp3_jLsNgH4dv-DM_FXkkqLseiNFV9ymat4vTwkmhEh6SNp-T-jgf2VEpgPP7E_pFVESwrJogvQ" },
+      { id: "roti-o", name: "Roti O", desc: "Aroma kopi wangi lembut renyah", price: 3000, category: "ROTI", isFavorite: true, img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCLXk5ePkYQDneu9CfpXB72wta2vpmFqLF13XNxaXF1ITNwetlywWUe09UzCvjhovrEmjqaemk2XvSH9P5j2RrhI_iY8nZh1hAqzojv17pHBX2XITQanjCRB5rwYH2wwlkGcIXzGZZuQEs-0fddIfZusbABPC8txG7pOz_NqK5JEv3QjfEKyGV1TLb95qEe9QRkC-XjmijsSxySDkF_XFg45LqOqIPWWwsnq3mT_vuDBLOYt_IURux3tXgplC3pw576dQ" },
+      { id: "roti-cokelat-garis", name: "Roti Cokelat Garis", desc: "Roti empuk selai cokelat", price: 2000, category: "ROTI", isFavorite: true, img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBBxlS23vZN0S0tgdo1JnjR01p0TyzKNFfGwhkISRbhUHHIF-0oUO8CUHVSdRFg8i-33BE8lFlohnYeB89yL8JaQMpLHqjw7ItEKLISBzk1p1fxnu344pKV-pdRfVkd3c-SAWa_s_lIzojiIpVLcUBYZnnOynLN0ghXXaW8R2z9eEjyirGlHsDjGOW3WWMkTxK2IB7H-nfbV3HUJ9a6_veOKkQfQ4UcKE5ewm7tgMrl3KNPh9G5E-2ctK8P2aHx8DZVGg" },
+      { id: "roti-meses-keju", name: "Roti Meses Keju", desc: "Topping meses dan keju gurih", price: 3000, category: "ROTI", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuB9vcXx4gktu69XA3Rx15b-dlsSFaTfcETq0eTjsoknZxXgRjNvov-rn6TGFszUWcA93GSAeqaimh9PHJtWhYsT4P7lOhwhv0NZbohTOEWcIo6kZDp0wpJoeuBrY8W0e9nxM7GhKnshxDsjrlLJSL_jRD7nlW7Vv7lDHbvM5ATv1uQmKugJwK8Z2Mu4b_SPLuqQBEbYdl1z2TZl8nRJxNJWxZaOeGKcrnkS1X3dLYctszBXT9-lnM86tVr1EWgP3svbzA" },
+      { id: "roti-pisang-manis", name: "Roti Pisang Manis", desc: "Tekstur lembut manis wangi", price: 3000, category: "ROTI", isFavorite: true, img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDf-YJxWr7k6WnNqmOGpFC5fq5GdZ-OW6nMclaxzffCdJpdybyn981b0fNQQ4Foc9yEiN_tieBb4T5z7gFcOCmBqYVZ7I2QaKtcMAtw2CGe40jfHThF0SwR3UwtIQsGQyD_Mi9b3lrJjsL9oPrHLs8ykgV80qsNUBXsbjSMjcQYg7dr6tU1O6hV2u3eXOev0aq0ox9PZR_vViLBKus0FBIHJB-VucVVmH4nyMdG3FzF543mcjM43EelAMorsIleNcRS6w" },
+      { id: "bolu-tape-klasik", name: "Bolu Tape Klasik", desc: "Empuk, Wangi Alami", price: 2500, category: "KUE", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBpHXcVtz0aYZG7bg6dW8bv0niJ_07tpQ2jFXOZqn-v9q8IA8UYHBZOWzyPO7BTYhMi9Qj7GVWUN0TdFmICDwrWs3K6EEof52geZgfU40CupDHlmVO5_1UkZ9bDgvUAdoTD0MoRvdiXUQjqQ8cQoXnG6jj2SNP-SYNtbJ72qVHl7W5Q-yqaVIFizGk5LMpYzXiWvVAABGeA4pSFhJvgy-7ALuWR4SCbXmt68y4p_Ehqk1HS7R2iJxQAE9ZtVJNWoJhsAg" },
+      { id: "jentik-manis", name: "Jentik Manis", desc: "Manis lumer di mulut", price: 2000, category: "KUE", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCn7XcB-YPAmU9-7CMD3ZDqnnXJiUqtkR7MAXVn92h3UQyzJbFK_ZqNtSqvlzPj2DmzQDlRT1UEFoa7NAl1yIP96uCBioNnzs8p-D4I2Zyp0ikRMwqLnvmEi9A-C4HVzY9qo7z40BT22N8KLptQZpEjnE2b45uo9_2MdTcd5Y3QtEUkNWg50EjerilXpECw7RLOtLGmV7GNWIF4FRt8tSb3_K_B3RCzIsoCKaO6J-TckFRcsFZG1aIs0uYJXXdrzNQlPg" },
+      { id: "ongol-ongol", name: "Ongol-Ongol", desc: "Kenyal tabur kelapa parut", price: 2000, category: "KUE", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDozVYu9CBrYr7wN30yYzoEIGKisyWMuLa4WB0tUY15d_hQBdvMMA_YWekqwJ8Xb4xV1JBc5kqpQOeXADKqMdBPzBDohwpfHM20VJU1uAqKMpMho_NXhryAhIs7HaF3w6tdZrqlx1fHwbX8hknTwwjW_HsvM5duUItdkafRwKRxt5lGl-_eeUebqCVXAuUSf9agLY-JCNNAOVX-utpFBDurKNMgOBtPh7-N5tSLJQAydrv9_OBMtSRUQa_yMNKe9vAB_A" },
+      { id: "jadah-putih", name: "Jadah putih", desc: "ketan santan kelapa", price: 2000, category: "KUE", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuA_JoeUB35mb54kBdMITNOm6rPXQt7AhBeD2vxir4-vXMIaXHMu7eqFFXQVOro-kauAWpLVLtKpikJl0P2dvQ4ugXNzgilEPt0mGYvUEUen-VrRq7R9gOQMbv2ARiB3pfC1tX85sEUmVxmSs-dDHQHqlKlO2M-grX1daQyQqbydaWUNp0mj4cLMDdlVkU4U1u83Mlv9zdWyDqzXZx6wXbKXcIeRGG6QSTbjfjdvBB3TA9hfD96WRi4vOrtKtsNg-lvTHw" },
+      { id: "donat-cokelat", name: "Donat Cokelat", desc: "Empuk lembut tabur meses", price: 2000, category: "KUE", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCD2lwWeElisuUlcqc1PD8yv6KZx4rySWrMGcFRIOODFibw_NI2LRyRMnTTZdoOCjhhxF4zKNa99ZWZErC-NvJ6P1hAo2canA2fmngFp2i3Lb1OTO9A3I5WRjMcWdPtWHG55RXKi2Z0ga-bh4teJ8OmSuC8JRXbXWws8G392fVz5QG6MbQ2SboG3SyOmNENCUE1bM9qSntD2YoYmAqav7Hok0Hd2pA3LI1KSZjxexWyY3WPS0pTVSOOjczZCP_M1ee0LA" },
+      { id: "terang-bulan", name: "Terang Bulan", desc: "manis lembut", price: 2000, category: "KUE", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCvoz20qeEx6bd3rcp2MU6oHfXBeVkCPMxU23V8hoUk8nXNVtiokPvq3Dz0iCpmJYqQ6ej23HMZqO6CTyapTj56BUur98nRoTNTU0emZ_IXorq9mSvWOJigbUlt-pegfbvHbfipwjdm-2mj8i_MJLZ86QBDw6JyzzJSBZZt3ki5ZeG7nBhgGOQW8akld_3F74opvm_DjUHBztjN5qWSLjhMIGR1zBoIZ-BLFS4NxFlmVrAC_TOxopj0oFjmzeEA370XNQ" },
+      { id: "bikang", name: "Bikang", desc: "Kenyal, manis, lembut", price: 2000, category: "KUE", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAFUk1vq2rd_sI1sUv95ZzMPIiBXXus114ImeU-ST57N2oesJKcQbftAvJFb19XCjbB1pqr6qFFQ8DeDrI3kRCqqqY6mJf884zoHnnabvUBlU6iOhjk9R_a4iM4EpZDyFPkM3TJFUzSOa6o2rPNt522AhyzNfKkvtnaOVWyzDLkcnetG_y0uWrgPRcmV9CtlKTvjfjq6EsDy5CV9G0umAYi8IxZog-wjfGOKe79K5Q1IkhGkHOErWdD5ADnoRRPTeBGnQ" },
+      { id: "kue-cucur", name: "Kue Cucur", desc: "gurih gacor", price: 2000, category: "KUE", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCHbWLvlIFq1gF617wRF9by1Iz0YSrcEW-osWW_mOpXn4h_VpdH5NM3xKpqKCgH8E_HPv3AgIO-y-e8LxGKyDDpqKuY8rRDFd5cmjmeVB8nOOzv8oI0FGVp7lJnHvz7vHlWERMETUYUKzGASG63TQHC25yLtQdu4n_IaztVVj4fjGOhbH6X3-L8PvTNuMaSxG3hdXOjutGLAVu_FT3vPa5Eb7jdPqu8AVcraZzO0etr2d-0wNPQyreenKRz-tfrbayCWA" },
+      { id: "wajik-ketan", name: "Wajik Ketan", desc: "Ketan legit gula merah", price: 2000, category: "KUE", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBjXp7YqSYSQkvtggaQvC4p85G9JNrC5TXMxfQmUP7zk20JVqAOv1SFD6qyDwaJi40upaDkjK_2hyPbwYDsaRrYgjM8qROlf-V1DVJslVBQfBvGXxISabK9NaxMI8HqMT28Y3gPcNU8tyQ2cqkGF7BGcIetkto-oHc6Gc8K2SNHi4aFi3J3wAVPDPaoRO-Ywax16ZWHDKwptdjisEMt0o5kYlo3MGQpFkuediXkPV5mJ7DXLbj-MFewG5PQaKg-SFb_0w" },
+      { id: "dadar-gulung", name: "Dadar Gulung", desc: "Pandan wangi inti kelapa", price: 2000, category: "KUE", isFavorite: true, img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBmXLOep8gXTUcE0NmhD-G55HfihkvHU6rLBjbMDYSkh4hq4BB4VjjtWYCpsaxdrzi44Taia7zFTfHsH9nsiV_IfzUlWvsPjDQRhDHwl6MfCgb7ypxLMseJ59fyxlzA472YdVqZEwOcfhrpSa3WQC0JGYuGtjg_s2IC8b4CTmVEMH0oFi3gqgLPtWpUK_ALFGnygioFZz0uQYLh3chkHlxvAez08Bq_w19fzXxZAbuBX3DdFoHkBKR578Ee6EU0P1n3mw" },
+      { id: "bolen-pisang", name: "Bolen Pisang", desc: "manis, gurih", price: 2000, category: "KUE", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuD7s-7VSWmC0kUHHh0ntbwMukI4EJEYZQzx4_EGOKfxyfm5g-1thuUMW2EaeAioQNPpQt7ALJn4cf_p7ra3A4x-4gOpwuw2EH7R2BS_vt-yTltyNZH94Sb3dBeZqP918FNsd5oyF7XdBDDY0G5vzRbZZaPgMpZa8hggV9NWqRq3UgJC_MFPhxOcCJgJaXhKfBwje7mAWNRn-uGilrvSWFs4gl3nZnMcWKpctnbsjtjQzNqUjsNFrTKW7nM57jsvufcfRg" },
+      { id: "gabin-tape", name: "Gabin Tape", desc: "Biskuit renyah tape legit", price: 2000, category: "KUE", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCFpdpFOcXTvpyYi41fP5tG6SmCB6w0Zyl9r_Stag9N3fOsPwGvoj74ql8gUkEkvX0nQwQgA9eJKXZK14E1_ZzK8zN_JMqV9wgX12nukupTMAVhzvGKnaI5Sp_p7pptbFzRhFrpWgcDk1dLLZX8scobGZb5n0R5WpKhoqvCEC234O8CRzflVDsHfKUtWoqb0I6SXG8UYm4qw0jslAXaGz3cDyNxCWbfmS3BE7Uo-fqkK7K_zqlPFBgpSCG63coLrjZLkQ" },
+      { id: "pia", name: "Pia", desc: "manis menggoda", price: 2000, category: "KUE", isFavorite: true, img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCYhknPlJmLcujM8zLhpCyrc5xpT6PrruAfiL39Wp_GZmWVTJ_QOJSanqHVLfWXMsIrK6keSp4dAYDv7W305Jm7iq6SB71kuOhCSjwBiECPj7nVAZ-QIPD1vq7uMDVwxyGx8xCwdamCoJ-VmwD755r5qT0qf08KpPL2fdXe5Bp4rjv48kAlbFGXl1BGhP5GBegOAFvVJ9wCmaA5bFTZ3kywi6eeRr0yVHTlh-rId8TwRxZXejQ5pSMwrEvUJilvVVpbhw" },
+      { id: "bolu-kukus", name: "Bolu Kukus", desc: "Mekar lembut warna-warni", price: 2000, category: "KUE", isFavorite: true, img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAnRTPH5XstX_jrupk55NL_DjJ9iaY54m1XdsNbZp47pvzvsA-jTv06fDCbFO1__uo1qq3-FqFHFo0jECVCzp79iFNgl9xa3vaauN_Rlwh18LX1PrYsdl5UFH5xdHfwqKS4xHpzMdab7V9FXMqfPoCGMm3picDC-6lKJhoKnpkLu0cKAYiVeE2C5_MsJ6AeTzOakWo9UD__o-UUGQwXv_saOAGmpcarihguwM7asJSkUNuyJa3jQ01T02RP1W_Rq-d_Mg" },
+      { id: "kue-sus", name: "Kue sus", desc: "Kulit lembut isian vla vanilla manis", price: 3000, category: "KUE", isFavorite: true, img: "https://lh3.googleusercontent.com/aida-public/AB6AXuD5GEhV9hiE0DDK_Zl9U5ri29b8wE-hsUpF_WZIddgP0Pefj0bKuaHvQ2RGedS3I2CDvMhJhNINqlNp45O0XPSbMJplIQrYUOt7rIFUYZyawCuOfcr4udJcD2-QWvoH_4XHPYMY6dsuUKvSIUtgPi-2eaVEdo1o4kyxRPYEVKMyrvINn1JUj4xxMbSvbEH1xpx788j-AMFdFfo-lWUMXRWcun6VJWWgHSzM9ZRL5zdsqaUU2HH0AHZN7-OqXXI7iuvwwg" },
+      { id: "donat-kentang", name: "Donat Kentang", desc: "Meces coklet/ Gula", price: 3000, category: "KUE", isFavorite: true, img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDjqOYURaLKqWECLgLZacc4hzxktjnVn7k0XHGQ3sZ9RVgnq6yNWsOL4A04HfqduFWbnVMSCd7ovetAhepqc4OvF1eA0jJzS6VqVUqsA4T83JOdstyXaiLMGjdHreqxv6WMJTD9iEaUsSBfJZhwyUDFJSEAzv5_frq0JBsdH0B5OM1EI5AZbYRyLb2Czk2ywmvylWGcuKbkROnClJkafSCKtytIDfIh0yMa0TLo_rBztBCBoR6r5jCdUJANe9Cll9IlVw" },
+      { id: "bolu-mawar-cokelat", name: "Bolu Mawar Cokelat", desc: "Bolu kukus cokelat legit", price: 2000, category: "KUE", isFavorite: true, img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBxAWBBLq3axmfQNqYCV8ndlEi44OUGqWa1peBL1HbjapFB1LzsJxLfTFmO0l2S-YbQ2vfKGpJ3eagtkG73hSfzdo2BXBHI9AbgO2Z9ierelpYpXaviA4Se0LXU4EzFQS70ccMl5ayz8zXuRbSSDPsYnq2nqn4NZQIzfrLAaKvpVILAWL13FWagMpTAT3imxD0vMpRg2UPJupyMVRD6tvvjZrJkVlIU932DuVCcLDTiJXL9LxdryBsgAtsBlrijUWDgcg" },
+      { id: "kue-amandel", name: "Kue Amandel", desc: "kacang/ nanas", price: 2000, category: "KUE", isFavorite: true, img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDiloV2WIfQUJm0PsWpWb_OEXEGIZWVTY6mSSlJlbTbTz3ac9797VPU9JFKxHMmrOB056YvLjWLp4ix2bg2o3x5nRdNR4mwZjigO88IZxpMazRHofmPraSxzVwEFU100nm7SGRbULUonc7iG4nWVisuKrJ1HWDkUPYU9NYw5LY8g9MzbVP4Y7SOVtHtyP1mWLJuJpFPbwmwwpIpsZWB2eAn-kgvhqEo2sEjl92gtqT6ZfR-WsZucUq5JrmDM4GoBujxog" },
+      { id: "kelepon-gula", name: "Kelepon gula", desc: "Kenyal manis lumer kelapa", price: 2000, category: "KUE", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuB8sL21RkPiR8t669juXbAJJaoVi5Wv1cO8kJrlyZlWxtbj6z8CUque1iNMbh7u_oC_jIb701CoOVoxJl4oRJ3CRvJDxLs89i3IS-ONbJND4MvCcmkWG4TyR_4Z0o7hUxu_773hdDKetmggqnNuI6SsfhDaIXdIfQ8s3iXLB7ITPCt_tkS8Gx2iVuBof73D-nXZLYhaJiZaG9dXqys5cIUvCEcz7CbIq16e8Le6bPkQDJjdHntE6lq3jABJoNcwGheQ_w" },
+      { id: "lapis-pelangi", name: "Lapis Pelangi", desc: "Lembut kenyal lapis legit warna-warni", price: 2000, category: "KUE", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAMxtltnUICROSB-Tzb1mC-OWuWKuMPMiNKwcjlvidkTGLKZfaixuDwkAlhXB09e7VsAKLH6fDt97Tfn9XyKQ_7S2SQBlK5wRXVDce-MgvnR2eMsatWqGzMLR5JEYzdzzIYoqlNIOajYlXTfglli9QHmaawoynatfnNXLTMOFVGHu4a4PbfpVFIUIwHOUIB82e5o_q7nKfYf-cUi55teYiZ3mi_dAYGJiVPBUoVfwcYsxDzieaVut65WlFvGiLc_4s_GQ" },
+      { id: "kue-lumpur-ijo", name: "Kue Lumpur Ijo", desc: "Gurih santan lembut harum pandan", price: 2000, category: "KUE", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCpG5kX2ARF6Lm7eRANG7l89PjEhazw096ji2N-An3II1g4cTvrdGzzGkPgzBiiwU6eaMF49VEyT3MEOQnd9oTIZvqmqINIP9rQ3aQlmtMu6Ly9pBLExtCJUP45GSpaK5z21TllnfeDGFF-dEha4-IAxzTGFhr5zzr_eip9RebveWd-qSeyTzY3QopZiCxommxOPUjQHqwVaPdSguJtzdGK9lqK8znhOwRh9lMCEI7ntLbZciONGT7ilZpWy3oorMB0Zw" },
+      { id: "molen-pisang", name: "Molen Pisang Wijaya", desc: "Kulit renyah manis pisang lumer", price: 3000, category: "KUE", isFavorite: true, img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBu5zLaXTqL9mYOGDr0YkaQUC-iiLzfgU84L8cDW2zXM3Oxapp0KlIA44875JhqeJ82DZKaT9mpVMMD3LfVTFn8C2bTb2cMuG6L4hYXctsPTwqbPUV4kxv9kdDHbju5Qc7IJgVi8xNqytbO9jzNAMOcHD3JIzRDGjeCJYPpFKLiDsOgNB2QjDKUTk3JbL8LSakqqBWrmVuXabIsWJGQLQ6ZhrTCJ55xe7DPrccX9qlyh6NsnvW0EnW7E-37Asvwqe6l_A" },
+      { id: "bika-ambon", name: "Bika Ambon", desc: "Legit bersarang aroma pandan jeruk", price: 2000, category: "KUE", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBqgO_D_UKpCxm4_1RgacK82UARzOAVpcseQ98GF_XkUlS6_T1y1tJv1j_adVVSJVv0ybZZvQLSkNVjRG8TZEDmU8PUzg0Q0ARslYhKbYzFJRxzRZWBTQavReIxcKH3KMmv2nUnJZy_EwUIRSAOOlCTZNynwdmu2UKVUBvyPwIqnd9y4lImmg6rxpECNakJlosUinrZzz9COeDp7GX-OIMoXSswtH1Z8-OUoGiBDT9rAfelfUiCyosAvHjSk2cV0rc7Qw" },
+      { id: "mendut", name: "Mendut", desc: "Kenyal manis", price: 2000, category: "KUE", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCiWg5JZkWuE_ZcHTKzjybzlThwE1eRcWz9Q5X0xCZycVcYGRAsi_SBYpPMEMOOdAxohOkVP_oOYTdvhlMz1MTFFQsDZtWtjslr6EboIhUUhiljieC_4WlHDO0FKtSUxAWpk_VpeG0ISPRqtqUFywUFc0sf-EYF7lXjC_G0FjkLLkYWduh5XIXua-QNfDXuuTvR9ATQSfnk5_DsEuA_n2nCMMS39Px88qRaQfd60iLNkyJZ-bp8dZNK89JFHKN5NCp9eA" },
+      { id: "kue-tok", name: "Kue Tok", desc: "Kue ku isi kacang hijau", price: 3500, category: "KUE", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuC5jiEJKo4U_jfgMtFAYk1wVhwquqO5XaBeni9l9y1YkJp_IuEwsV2euYFGjC7sXAm2dKvOawjvPuRMLsgbn8Q6suFtkgS0moYptwh7fgQ_YUhhDDLC8rinSspLHiai52n3l2fIUMMv5A7tDUQCiyTnRXnovw3-y0FgyfNOUdfaZbD1lc_GPmlhULfk0rzdpt4fv3mWvtkUVLyffJyuuy_sr2Lf_hqvsjtpXGkBkTQxr_MBvFkB19Wtz3hMz180nfbFrQ" },
+      { id: "naga-sari", name: "Naga Sari", desc: "Lembut isi pisang", price: 2000, category: "KUE", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAj-x_dOFCamyCm7pMonsORqr1jbtjSAYeyT7IskaoBSikC-MzIXMOtpQyBLyxKZeoVjgbfXDRzS3Lv3RE3WtXW9lhVLVvT3_zmQcaNriGU83hwCM8P0PPBYzx6QSD8S9lembCkPPzyCEfkrhTsIZZtgtNkN9wgv3CyDT67kOx_-VOq9p1WxwDL_03K4Tp8nBnF0mNMCdR-fQKJ6YZK1-tOn6JQMdS9O5ZA8-6efy6AmtV23jrmpagUvgdopGaKOXeh8Q" },
+      { id: "puding-desy", name: "Puding Desy", desc: "kenyal manis", price: 2000, category: "KUE", isFavorite: true, img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBU5E_lggLpY_PplmhfB4zqSPe2Fa_M85mZuxn54BOHnmLBGZXNIxd-lx5Lrr5nV-9L7wq_llDrPrJyiY_8Dciu3i5XimjPzr18EPeit87gd8wntipk3juj04c2dsGKaeMq-az6Fkdr4PB4T8SNj0VIi-h51TB4YkcuonNsl0KFIVzPyoAg5CxFVho2YuAvn_JQICkpMBGmnzVTbrW2KLR8lE6LzsjziQEAg84jH7mEEZLPxHvPODTpENzLi9FHu84Amw" },
+      { id: "kue-lumpur-kuning", name: "Kue lumpur kuning", desc: "lumer di mulut", price: 2000, category: "KUE", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuD3JGW-1GoMDw25EdYgP4l_4dV3R-keI4-dnkJvW9bvWVHX3Dud6GN5--u1FEkXBUbqz_ZdAznIrNJDJUIG7Y3yG0isRmZh-zrgjiGZsVQXlwykr6tEYX-tbmlm2aOYi18cfClnY8Qwc4QvDhzHqTqUy7icaqnX9LbesqEM7zsN-t4K1-CmiI_Iq84PrVWTPV2d5LaikbXIA7k3mOStmjqJF-i4mEbZ8qJywljqhnyHXGYaLHJEH4RUIQlinqlxbRDl_A" },
+      { id: "lemper-ayam", name: "Lemper Ayam", desc: "Ketan isi ayam gurih", price: 2000, category: "GURIH & RENYAH", isFavorite: true, img: "https://lh3.googleusercontent.com/aida-public/AB6AXuD8HqmP4pZ2062yePXRWCNeOQF40jjhce5ytXb2KEt9gQhrcOxnZ7_bOvHvJm549M8JZkiPtn1pRte9vPEc1TWW7e_3KnU8nGM1FP14sd2b83vr08fUbjWgdvKQS2aya5xJngTJMMq4QM3UULtkhsYZ4MPfvyPD30vk3VTNOvnLy0CdfQti1ZjbcA8oGrTmNUjC26PaU1myv_sHeci3X7ZAaSm3j8ZOqIB-wkC-zS_5_F0FdIYMS0Oxg7dCQ8E4KdGnxw" },
+      { id: "risoles", name: "Risoles", desc: "Kulit renyah isian gurih", price: 3000, category: "GURIH & RENYAH", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBJQSd7fWALUx19-YD-AJD5mY3FG7Mo3N3BBzVrI8hB0RxsvcXCuesmSYw2QEODt_vUsa5zICm0jkB7dak7OkDSj5tNBfw8VO7EokYqyxB48KpFelbdL9znxxlEDF_opsQGm83SlMwtd_L8PNCwfnN7KZTGxhi_qnL2dUnAbtawvuViXUMZOgnjL9qb9qziF2ypFeXM1wMiJl4VRlCuY2hHsEhImiwnpgu9AkqrVYFQDkzYllKqsgJAZ7iJtctKZM_wRA" },
+      { id: "sosis-solo", name: "Sosis Solo", desc: "gurih nagih", price: 2000, category: "GURIH & RENYAH", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDJ21WKdDWU6TCzFrBlNGMeGzsNuEFjWA1wS89dGpUpjzEB8ICzMgSRKOTY8u2-QqbYSLkCXtPEfm05Y3noVI8zpEqRfyx9cvx09VsVLF4_jJPkbGuFWd17mtU0XCfAJ0AN2x-ZoXfk1CF_SyuQXsbFdnMeh-h_yotWGEmIy1jRZ53fzwsT6DvfIAmmtk9ZeB7k6rTmiOb7vYLL7tXNOlTK6E7hKx9qFsc4QpwLeS5UQiXrY3FSA8hshOYbi_2XEn4lfQ" },
+      { id: "pastel-goreng", name: "Pastel Goreng", desc: "sayur renyah gurih", price: 2000, category: "GURIH & RENYAH", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuApN0U1o56Pf9y-HNHt09ziXYmkJ54RrEqSUUPOUYCIzHBwOi_UGM8rAHzsdDIcVNJxnJ3JlKTC71PDz0ra5OoPo7AKnStVXHLYujEHlzhY9zVsiEaUirIz_gfYWUFEXWmjsK7MFZl40qoUtdVQc2JbnpBH8CBxzkpo1d9mIhqLjkfE5RfqfT_HjIkMi76f0qoJfT1L2Co6dkD3JrUSLmk10vRW-BPyGJsqZ48JgaGadwKRExHJ8pOWxcRHeDcwKkIhDg" },
+      { id: "arem-arem", name: "Arem-Arem", desc: "ayam gurih", price: 2000, category: "GURIH & RENYAH", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuB7Tg8C7wZVGd6svRy0qz4Im_oIVfz2o9DIeqcWehP_kMTHuIN81PVdTIgrHDhy3Z4rKgV84Qmimk94Li3VtSPpY6j7d9iMNk2-Entur-0scQatxSGnmuh_uVXaXmbCdsoiqQSYU99BU_mXwqc3HloENvCPPYc63jdrevGQVPKjFKgA4h_94Vquq_IWsC6xytF6w8Dw_32ve1KUhQ576BmuK9ZLygHermPeYyqn9ucpO-FAv0_xaFNVOjTcU8TyPZJb2A" },
+      { id: "martabak-mini", name: "Martabak Mini", desc: "Kulit krispi gurih renyah", price: 2000, category: "GURIH & RENYAH", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDqRA8L5InG9TbyRqHPhR9syXVddPBg9bKamEoXkdqkJIGTGIS4K3wJ5YSiGrgKhS6dsztRw9HYeXZ3WO9bk87J5tWfFaO9XrIyvA3XtIEuZTPYOAG1IAi_TkABrfxOW8B1OjlN1jJaha6c2v6LUp4pHyZXsNftmmIJDCoJtoNF75LfpwAksCWgzb51Q1CED11dNrxxdNLKmOoaFX0_eM5QV5Ok6IbtsPGoycOhJG0UmnUYwOQd2X_lOdKL2rY91NQR8g" },
+      { id: "stick-mini", name: "Stick Mini", desc: "Stick renyah pedas gurih mantap", price: 1000, category: "GURIH & RENYAH", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCHsC5m6jJMUMHFbPtreb2UfyYn0ICOjd7vu3l6Kwd8s6LzssYH7MittajwtZRcFedL9Xd6Z-jG9Rxj8TEjU4mf0iBycvkP5T55PaAjOH8pPTAl_uR_SMM5OVh56uwTGhc02Ce-3fRi-fTgKUL0hTiitrw2eij_6u1nwiDsN8dUCzb_l-vXMwkFim6vbVrBIdu3Kg8bMvO4FI_Kjnh9Gxo-agFYyecHKXRjvlUnj2EdNfFSonDeEK60VZqdgU4rrgw6yw" },
+      { id: "keripik-singkong", name: "Keripik Singkong", desc: "manis gurih", price: 1000, category: "GURIH & RENYAH", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBz1ODqOrULj0LGiyeWvYr0beqkLqHq-aFdWR9T2rogmNHNdqO9nJigmTwpdEOK8fS9oiS68aP7EfLqytKoL-a1dIBYrsco_tijAgFg6AGrvJNmAuD9OUFYC05GIVM_QPWb1LLqRymLg2a8NnpbNMTxzKQjfUjcTOSCN78HrVCH2jbNwRsCrSDfqv8FqQLM7PzQaNkE9uPgZ0qlgIMTzG9L5Y6IdNzODygvpQKeaa4btBBP_nLkMdp5Ct13RhpeM4pblA" },
+      { id: "lemper-bakar", name: "Lemper Bakar", desc: "gurih mantap", price: 3000, category: "GURIH & RENYAH", isFavorite: true, img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCQ-K-EIpYli1E4VxkWIlYv7AhVP6tVkp0MGMB05EOx_zCWt7mAY7zqSpUlHAha3yBUbgu7z2fI9dCCGBLRf-velLisdnxx-Hdo62-rmisx27vKJta22ZoXWnSvfqrW6dM2EBuui-iKzKhHid1L4Y6kfWo5na2iBz_GsAYWZOaYmKYXgdnsGWVN6UxpiJcP2Z0FUHrPnGnaq6bJY0g1Dw3qBtH_uD9gFQVEF_DsBReER5j_Wsqh3yFc" },
+      { id: "onde-onde", name: "Onde-Onde", desc: "kerasa gurihnya", price: 2000, category: "GURIH & RENYAH", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuC3g98V8ta_6zR163-_VZssCE9EuuMc-KELysbXnMzBRbcOKl8Vquq21KyA60x38I7st0jFJWRN39jS5FrO_BFN0ZCeAVU1Zb1yHf6fCJ0XVpXj8NgysESz9KGxz0I6_nn_3d1cCorXKiiC3FfofjOBMMqfF0sLPaytJHbIzgj-NKvV1CzXj3eZrCfcGP70vOkmqhde-loGhtwG17878UqSI5Vi7tjfr-WEIZXuz9gvoZrraaRk4GwO" },
+      { id: "cum-cum", name: "Cum-Cum", desc: "Isi vla lumer", price: 2000, category: "GURIH & RENYAH", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCHE8lOddV4ZgEcHphl-UUNc14KiA2fa9BJ_U3G3SrqykEq68uA2A2KP2HXhMr56QiTlcnNXWjBuwmYdkLmnLXQ7COMJdCNe3-1kMMOEZXKfnM9IUxpEMXxFj-8uiOxj3SyseFFtDbEMeITQMQbgChVWDAzFaYbe2nbH3TqfzKgPYzFwO0hcMeHLvLzBgZ_B69X95Kfdr5jzhPgogfYADQbAi7CHT7OHm4VoWW_OJrvfyKVs98QgupR" },
+      { id: "pia-kering", name: "Pia Kering", desc: "renyah manis", price: 2000, category: "GURIH & RENYAH", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCa7GRrZy82gXZ2k7Vjls49Ku5sNzNUt_iwdVWWQkgg6nFWUheMwcEWs4t2Vt_mEF28mJxWB4oxWvsTIm4OFoeILAdCXlkZVTwLOTttAVF2x8SOywft8cU6Q2OCfpafmB-BMcljd8mDvpB8bWDmp75Ro8X9_zC5uRBfE2Jttt1vB8qfKA-WP6TJoFBlwRY_oRlW-pVQiewKazvS8wPScSqdS2lP4qKp9Vi-4-ec3cmpNmVdOFD4xwxN" },
+      { id: "piscok-krezz", name: "PisCok Krezz", desc: "Pisang Cokelat Gurih", price: 3000, category: "GURIH & RENYAH", isFavorite: true, img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAVgaR3zRSDgaumv8MLFsNQOvGAB1v9YW15sw4JmgtUU0T-FwBCnWBWZ0-qMoFn6Hf8vqwko7kydT_LlSSxTEaUQjYFBE3FNbcwTsBQ5JbJGmERap96So5GroWmmrpQP3Tf2YWAfbwV6wEGg5VTJU8BKvhHhciCLcfOy6xmUzCFUl3Qvrjplqoz5eP0_-bUNqG81Dm06q1--4AeRNCX5QafL1XE0ES-iT0e2khhOZE4MIUKHdNyRgpw" },
+      { id: "air-vit", name: "Air Vit", desc: "220 ml", price: 1000, category: "MINUMAN", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDz1wvH2pigS_7mnzHgW1c6H32sPr2_460hMWFVHzO2KStsxqnvdLcTcwfdNZcNpjhgw8fgHyGpnEJjXHhhDc3D5EqYhRqeaIqxYd4ThuvJRQIUFYhp3LnwBp_JD-_O6rxFNo_sI7pKeLyddIrNzFWUMPYKLhfl2a41HLWe_duzVtNAvFJmBgDIMTphn0i4CIhCsaU73JxsQDZaha24U-_zVyBRuW-X-r1WrbiP3Mixb0mukF4l5mLSHAbTP-_Abkr5cQ" },
+      { id: "air-cleo", name: "Air Cleo", desc: "220 ml", price: 1000, category: "MINUMAN", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuD98krumPx9H8Zdl6jrtBRuTkiQo7eJBJ86SKzKZ_PITQhv9DLZufaohhoPePLb0qKpSzoY8dHqtZEOdXYkFlIpbBaTKV31Q5Z2ipuPgAIyblFt9lPOK_3rc3wrNTxtHmvstLHLFQHLOBRZBM4-tq4CkrNJGFxBLrX8eRUf07LjrOrELqhNqMkZc0FSGao7zFK5bvLiC3iGr2Z2xCbtimBRqteiVLRixWhnbAFitaA_JwtOn6554EPdcHEFL2aj-BI1yQ" },
+      { id: "teh-kotak", name: "Teh Kotak", desc: "Teh lebih berasa", price: 4000, category: "MINUMAN", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuC1DiXICyhqySwK6Vs5cVsFF9L8dpfkGYReSNKjAWQ5qzNS5PmWkJQI0hjxTLCn4d5TZmKs7JmqBhph27Xx39VkBXgbNIyGHmsFvGbLYfkhAn7gWM25Y0Etyfd_-LHjJ0sUrBWwg2oJs10oa_q0y2Qgvg155D-houS0v8U4seLGLgmFHDJbu0KNbH9VsNOGrfREUDijvYeQd_U9Vu813vif48W7_65HdsQRL42JUQc07N4ciwF-iwPG" }
+    ];
+
+    let cart = {};
+    let activeDetailProduct = null;
+    let detailQty = 1;
+
+    function renderProductGrid() {
+      const grid = document.getElementById('product-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      PRODUCTS.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'product-item flex flex-col bg-white rounded-xl p-2.5 sm:p-3 transition-all duration-200 hover:shadow-md cursor-pointer select-none border border-slate-100 hover:border-orange-200/80 group relative';
+        card.setAttribute('data-id', p.id);
+        card.setAttribute('data-category', p.category);
+        card.setAttribute('data-name', p.name);
+        card.setAttribute('data-price', p.price);
+        card.setAttribute('data-desc', p.desc);
+        card.setAttribute('data-img', p.img);
+        card.onclick = function() { openProductDetail(p); };
+
+        const formattedPrice = 'Rp ' + Number(p.price).toLocaleString('id-ID');
+        const favBadge = p.isFavorite ? `<span class="absolute top-2 right-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[9px] sm:text-[10px] font-extrabold px-1.5 py-0.5 rounded-full shadow-sm flex items-center gap-0.5 z-10 select-none">🔥 Favorit</span>` : '';
+        card.innerHTML = `
+          ${favBadge}
+          <div class="w-full aspect-square rounded-lg overflow-hidden flex items-center justify-center bg-white p-1 relative">
+            <img src="${p.img}" alt="${p.name}" class="w-full h-full object-contain transition-transform duration-200 group-hover:scale-105" loading="lazy"/>
+          </div>
+          <div class="flex flex-col mt-2 px-0.5">
+            <h3 class="text-xs sm:text-sm font-bold text-slate-800 leading-tight line-clamp-1 group-hover:text-[#cb4914] transition-colors flex items-center gap-1">${p.name}</h3>
+            <span class="text-[11px] text-slate-400 mt-0.5 line-clamp-1">${p.desc}</span>
+            <div class="mt-2 flex items-baseline justify-between">
+              <span class="text-xs sm:text-sm font-extrabold text-[#cb4914]">${formattedPrice}</span>
+              <span class="text-[9px] sm:text-[10px] text-slate-400 font-semibold uppercase">/ pcs</span>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function openProductDetail(product) {
+      activeDetailProduct = product;
+      detailQty = 1;
+      document.getElementById('detail-modal-img').src = product.img;
+      document.getElementById('detail-modal-img').alt = product.name;
+      const modalNameEl = document.getElementById('detail-modal-name');
+      modalNameEl.innerHTML = product.name;
+      const favBadgeEl = document.getElementById('detail-modal-fav-badge');
+      if (favBadgeEl) {
+        if (product.isFavorite) {
+          favBadgeEl.classList.remove('hidden');
+          favBadgeEl.classList.add('inline-flex');
+        } else {
+          favBadgeEl.classList.add('hidden');
+          favBadgeEl.classList.remove('inline-flex');
+        }
+      }
+      document.getElementById('detail-modal-desc').textContent = product.desc;
+      document.getElementById('detail-modal-price').textContent = 'Rp ' + Number(product.price).toLocaleString('id-ID');
+      updateDetailQtyDisplay();
+      document.getElementById('product-detail-modal').classList.remove('hidden');
+    }
+
+    function closeProductModal() {
+      document.getElementById('product-detail-modal').classList.add('hidden');
+      activeDetailProduct = null;
+    }
+
+    function changeDetailQty(delta) {
+      detailQty = Math.max(1, detailQty + delta);
+      updateDetailQtyDisplay();
+    }
+
+    function updateDetailQtyDisplay() {
+      const inputEl = document.getElementById('detail-modal-qty');
+      if (inputEl) inputEl.value = detailQty;
+      if (activeDetailProduct) {
+        const subtotal = detailQty * activeDetailProduct.price;
+        const subtotalEl = document.getElementById('detail-modal-subtotal');
+        if (subtotalEl) subtotalEl.textContent = 'Total: Rp ' + subtotal.toLocaleString('id-ID');
+      }
+    }
+
+    function handleDetailQtyInputChange(val) {
+      const parsed = parseInt(val, 10);
+      detailQty = (!isNaN(parsed) && parsed >= 1) ? parsed : 1;
+      if (activeDetailProduct) {
+        const subtotal = detailQty * activeDetailProduct.price;
+        const subtotalEl = document.getElementById('detail-modal-subtotal');
+        if (subtotalEl) subtotalEl.textContent = 'Total: Rp ' + subtotal.toLocaleString('id-ID');
+      }
+    }
+
+    function submitAddToCartFromDetail() {
+      if (!activeDetailProduct) return;
+      addToCart(activeDetailProduct.id, detailQty);
+      closeProductModal();
+    }
+
+    function addToCart(productId, qty) {
+      cart[productId] = (cart[productId] || 0) + qty;
+      updateCartUI();
+    }
+
+    function updateCartItemQty(productId, delta) {
+      if (!cart[productId]) return;
+      cart[productId] += delta;
+      if (cart[productId] <= 0) delete cart[productId];
+      updateCartUI();
+      renderCartItems();
+    }
+
+    function handleCartItemDirectQty(productId, val) {
+      const parsed = parseInt(val, 10);
+      if (isNaN(parsed) || parsed <= 0) {
+        delete cart[productId];
+      } else {
+        cart[productId] = parsed;
+      }
+      updateCartUI();
+      renderCartItems();
+    }
+
+    function getCartTotals() {
+      let totalQty = 0;
+      let totalPrice = 0;
+      for (const [id, qty] of Object.entries(cart)) {
+        const product = PRODUCTS.find(p => p.id === id);
+        if (product) {
+          totalQty += qty;
+          totalPrice += qty * product.price;
+        }
+      }
+      const dpPrice = Math.round(totalPrice * 0.5);
+      return { totalQty, totalPrice, dpPrice };
+    }
+
+    function updateCartUI() {
+      const { totalQty, totalPrice, dpPrice } = getCartTotals();
+      const floatingBar = document.getElementById('floating-cart-bar');
+      const badge = document.getElementById('cart-badge-count');
+      const totalDisplay = document.getElementById('cart-total-display');
+      const dpDisplay = document.getElementById('cart-dp-display');
+      const minPill = document.getElementById('min-order-pill');
+
+      if (totalQty > 0) {
+        floatingBar.classList.remove('hidden');
+        badge.textContent = totalQty + ' item';
+        totalDisplay.textContent = 'Rp ' + totalPrice.toLocaleString('id-ID');
+        dpDisplay.textContent = 'Rp ' + dpPrice.toLocaleString('id-ID');
+        if (totalQty < 10) {
+          minPill.classList.remove('hidden');
+          minPill.textContent = 'Kurang ' + (10 - totalQty) + ' pcs';
+        } else {
+          minPill.classList.add('hidden');
+        }
+      } else {
+        floatingBar.classList.add('hidden');
+        closeCartModal();
+      }
+      const dpMethodText = document.getElementById('dp-method-subtext');
+      const cashMethodText = document.getElementById('cash-method-subtext');
+      if (dpMethodText) dpMethodText.textContent = 'Kunci slot (Rp ' + dpPrice.toLocaleString('id-ID') + ')';
+      if (cashMethodText) cashMethodText.textContent = 'Bayar lunas 100% (Rp ' + totalPrice.toLocaleString('id-ID') + ')';
+    }
+
+    function openCartModal() {
+      renderCartItems();
+      backToItemsStep();
+      document.getElementById('cart-modal').classList.remove('hidden');
+    }
+
+    function closeCartModal() {
+      document.getElementById('cart-modal').classList.add('hidden');
+    }
+
+    function renderCartItems() {
+      const list = document.getElementById('cart-items-list');
+      const { totalQty, totalPrice, dpPrice } = getCartTotals();
+
+      const countEl = document.getElementById('cart-modal-item-count');
+      const totalQtyEl = document.getElementById('summary-total-qty');
+      const totalPriceEl = document.getElementById('summary-total-price');
+      const dpPriceEl = document.getElementById('summary-dp-price');
+      if (countEl) countEl.textContent = totalQty + ' pcs jajanan dipilih';
+      if (totalQtyEl) totalQtyEl.textContent = totalQty + ' pcs';
+      if (totalPriceEl) totalPriceEl.textContent = 'Rp ' + totalPrice.toLocaleString('id-ID');
+      if (dpPriceEl) dpPriceEl.textContent = 'Rp ' + dpPrice.toLocaleString('id-ID');
+
+      if (!list) return;
+      if (totalQty === 0) {
+        list.innerHTML = '<div class="py-6 text-center text-xs text-slate-400">Keranjang masih kosong. Yuk pilih jajanan dulu!</div>';
+        return;
+      }
+
+      list.innerHTML = '';
+      for (const [id, qty] of Object.entries(cart)) {
+        const p = PRODUCTS.find(prod => prod.id === id);
+        if (!p) continue;
+        const itemSubtotal = qty * p.price;
+        const row = document.createElement('div');
+        row.className = 'flex items-center justify-between py-2 gap-2';
+        row.innerHTML = `
+          <div class="flex items-center gap-2 min-w-0 flex-1">
+            <img src="${p.img}" alt="${p.name}" class="w-10 h-10 object-contain rounded-lg bg-white p-0.5 border border-slate-200/80 flex-shrink-0"/>
+            <div class="flex flex-col min-w-0">
+              <span class="text-xs font-bold text-slate-900 truncate">${p.name}</span>
+              <span class="text-[10px] text-slate-400">Rp ${Number(p.price).toLocaleString('id-ID')} / pcs</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 flex-shrink-0">
+            <div class="flex items-center rounded-full bg-white border border-slate-200 px-1 py-0.5 shadow-sm">
+              <button onclick="updateCartItemQty('${p.id}', -1)" type="button" class="w-6 h-6 flex items-center justify-center font-bold text-slate-700 hover:bg-slate-100 rounded-full text-xs">-</button>
+              <input type="number" min="1" value="${qty}" onchange="handleCartItemDirectQty('${p.id}', this.value)" oninput="handleCartItemDirectQty('${p.id}', this.value)" class="w-10 text-center text-xs font-bold text-slate-900 bg-transparent border-0 outline-none p-0 focus:ring-0"/>
+              <button onclick="updateCartItemQty('${p.id}', 1)" type="button" class="w-6 h-6 flex items-center justify-center font-bold text-slate-700 hover:bg-slate-100 rounded-full text-xs">+</button>
+            </div>
+            <span class="text-xs font-bold text-[#cb4914] w-16 text-right">Rp ${itemSubtotal.toLocaleString('id-ID')}</span>
+          </div>
+        `;
+        list.appendChild(row);
+      }
+    }
+
+    function proceedToCheckoutStep() {
+      const { totalQty } = getCartTotals();
+      if (totalQty === 0) {
+        alert('Keranjang Anda masih kosong. Silakan pilih menu jajanan terlebih dahulu.');
+        return;
+      }
+      document.getElementById('cart-modal-title').textContent = 'Data Pemesan & Checkout';
+      document.getElementById('cart-step-items').classList.add('hidden');
+      document.getElementById('cart-step-items-actions').classList.add('hidden');
+      document.getElementById('cart-step-form').classList.remove('hidden');
+      document.getElementById('cart-step-form').classList.add('flex');
+      document.getElementById('cart-step-form-actions').classList.remove('hidden');
+    }
+
+    function backToItemsStep() {
+      document.getElementById('cart-modal-title').textContent = 'Keranjang Pesanan';
+      document.getElementById('cart-step-items').classList.remove('hidden');
+      document.getElementById('cart-step-items-actions').classList.remove('hidden');
+      document.getElementById('cart-step-form').classList.add('hidden');
+      document.getElementById('cart-step-form').classList.remove('flex');
+      document.getElementById('cart-step-form-actions').classList.add('hidden');
+    }
+
+    function submitOrderToWhatsApp() {
+      const name = (document.getElementById('input-customer-name')?.value || '').trim();
+      const phone = (document.getElementById('input-customer-phone')?.value || '').trim();
+      const pickupTime = (document.getElementById('input-pickup-time')?.value || '').trim();
+      const paymentRadio = document.querySelector('input[name="payment_method"]:checked');
+      const paymentMethod = paymentRadio ? paymentRadio.value : 'DP 50% Via QRIS';
+      const packingRadio = document.querySelector('input[name="packing_method"]:checked');
+      const packingMethod = packingRadio ? packingRadio.value : 'Snack Box Satuan (Per Box)';
+      const boxNotes = (document.getElementById('input-box-notes')?.value || '').trim();
+
+      const { totalQty, totalPrice, dpPrice } = getCartTotals();
+      let msg = 'Halo Admin Ngenal Rasa, saya ingin memesan jajanan:\n\n';
+      msg += '*DATA PEMESAN:*\n';
+      msg += '• Nama: ' + name + '\n';
+      msg += '• Nomor WA: ' + phone + '\n';
+      msg += '• Kapan Diambil: ' + pickupTime + '\n';
+      msg += '• Pilihan Packing: ' + packingMethod + '\n';
+      if (boxNotes) msg += '• Catatan Pembagian Box: ' + boxNotes + '\n';
+      msg += '• Pengiriman: Ambil Mandiri / kurir sendiri\n';
+      msg += '• Pembayaran: ' + paymentMethod + '\n\n';
+      msg += '*RINCIAN PESANAN (' + totalQty + ' pcs):*\n';
+      let i = 1;
+      for (const [id, qty] of Object.entries(cart)) {
+        const p = PRODUCTS.find(prod => prod.id === id);
+        if (p) {
+          msg += i + '. ' + p.name + ' (' + qty + 'x) = Rp ' + (qty * p.price).toLocaleString('id-ID') + '\n';
+          i++;
+        }
+      }
+      msg += '\n*TOTAL BELANJA:* Rp ' + totalPrice.toLocaleString('id-ID') + '\n';
+      if (paymentMethod.includes('DP 50%')) {
+        msg += '*WAJIB DP 50%:* Rp ' + dpPrice.toLocaleString('id-ID') + ' via QRIS\n';
+        msg += '(Pelunasan Rp ' + dpPrice.toLocaleString('id-ID') + ' dibayar saat ambil pesanan)\n';
+      } else {
+        msg += '*TOTAL DIBAYAR:* Rp ' + totalPrice.toLocaleString('id-ID') + ' (Lunas via QRIS)\n';
+      }
+      msg += '\nMohon dicek ketersediaan slotnya, konfirmasi biaya packing dus bila ada, dan kirimkan kode QRIS untuk pembayarannya ya. Terima kasih!';
+
+      const waUrl = 'https://wa.me/6287898309510?text=' + encodeURIComponent(msg);
+      window.open(waUrl, '_blank');
+    }
+
+    let currentCategory = 'ALL';
+    function setCategoryFilter(category) {
+      currentCategory = (currentCategory === category && category !== 'ALL') ? 'ALL' : category;
+      const buttons = document.querySelectorAll('.cat-filter-btn');
+      buttons.forEach(btn => {
+        const btnCat = btn.getAttribute('data-category-btn');
+        if (btnCat === currentCategory) {
+          btn.className = 'cat-filter-btn flex-1 text-center py-1.5 px-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-[#cb4914] text-white shadow-sm transition-all whitespace-nowrap';
+        } else {
+          btn.className = 'cat-filter-btn flex-1 text-center py-1.5 px-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-slate-100 hover:bg-orange-50 hover:text-[#cb4914] text-slate-700 transition-all whitespace-nowrap';
+        }
+      });
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const term = (document.getElementById('product-search-input')?.value || '').toLowerCase().trim();
+      const cards = document.querySelectorAll('.product-item');
+      cards.forEach(card => {
+        const name = (card.getAttribute('data-name') || '').toLowerCase();
+        const desc = (card.getAttribute('data-desc') || '').toLowerCase();
+        const category = card.getAttribute('data-category') || '';
+        const matchesSearch = !term || name.includes(term) || desc.includes(term);
+        const matchesCategory = currentCategory === 'ALL' || category.toUpperCase() === currentCategory.toUpperCase();
+        card.style.display = (matchesSearch && matchesCategory) ? 'flex' : 'none';
+      });
+    }
+
+    let currentSlide = 0;
+    const totalSlides = 2;
+    function updateCarousel() {
+      const track = document.getElementById('promo-carousel-track');
+      const dots = document.querySelectorAll('.carousel-dot');
+      if (track) track.style.transform = `translateX(-${currentSlide * 100}%)`;
+      dots.forEach((dot, idx) => {
+        dot.className = idx === currentSlide ? 'carousel-dot w-5 h-1.5 rounded-full transition-all duration-300 bg-white' : 'carousel-dot w-2 h-1.5 rounded-full transition-all duration-300 bg-white/50';
+      });
+    }
+    function goToSlide(idx) {
+      currentSlide = idx;
+      updateCarousel();
+    }
+    setInterval(() => {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateCarousel();
+    }, 3000);
+
+    function validateAndSubmitOrder() {
+      const name = (document.getElementById('input-customer-name')?.value || '').trim();
+      const pickupTime = (document.getElementById('input-pickup-time')?.value || '').trim();
+      const { totalQty } = getCartTotals();
+
+      if (totalQty < 10) {
+        alert('Minimal order PO adalah 10 pcs (saat ini baru ' + totalQty + ' pcs). Silakan tambah menu jajanan terlebih dahulu!');
+        return;
+      }
+      if (!name) {
+        alert('Mohon lengkapi Nama Pemesan terlebih dahulu sebelum order!');
+        document.getElementById('input-customer-name')?.focus();
+        return;
+      }
+      if (!pickupTime) {
+        alert('Mohon lengkapi Tanggal & Jam Pengambilan (PO H-2) sebelum order!');
+        document.getElementById('input-pickup-time')?.focus();
+        return;
+      }
+      submitOrderToWhatsApp();
+    }
+
+    function downloadOrderReceipt() {
+      const name = (document.getElementById('input-customer-name')?.value || 'Pelanggan').trim();
+      const phone = (document.getElementById('input-customer-phone')?.value || '-').trim();
+      const pickupTime = (document.getElementById('input-pickup-time')?.value || '-').trim();
+      const paymentRadio = document.querySelector('input[name="payment_method"]:checked');
+      const paymentMethod = paymentRadio ? paymentRadio.value : 'DP 50% Via QRIS';
+      const packingRadio = document.querySelector('input[name="packing_method"]:checked');
+      const packingMethod = packingRadio ? packingRadio.value : 'Snack Box Satuan (Per Box)';
+      const { totalQty, totalPrice, dpPrice } = getCartTotals();
+
+      if (totalQty < 10) {
+        alert('Minimal order adalah 10 pcs untuk cetak struk pesanan.');
+        return;
+      }
+
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const width = 420;
+      let cartItems = [];
+      for (const [id, qty] of Object.entries(cart)) {
+        const p = PRODUCTS.find(prod => prod.id === id);
+        if (p) cartItems.push({ name: p.name, qty, price: p.price, subtotal: qty * p.price });
+      }
+
+      let calculatedHeight = 520 + (cartItems.length * 36);
+      canvas.width = width;
+      canvas.height = calculatedHeight;
+
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, width, calculatedHeight);
+      ctx.fillStyle = '#121c2a';
+      ctx.textAlign = 'center';
+      ctx.font = 'bold 20px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('NGENAL RASA', width / 2, 36);
+      ctx.font = 'normal 11px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#64748b';
+      ctx.fillText('Selalu Ngangenin ~ Snack & Jajanan Pasar', width / 2, 54);
+      ctx.fillText('WA: 0878-9830-9510', width / 2, 70);
+
+      ctx.strokeStyle = '#cbd5e1';
+      ctx.setLineDash([4, 3]);
+      ctx.beginPath();
+      ctx.moveTo(20, 85);
+      ctx.lineTo(width - 20, 85);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      let y = 105;
+      ctx.textAlign = 'left';
+      ctx.font = 'bold 11px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#1e293b';
+      ctx.fillText('BUKTI ESTIMASI PESANAN PO', 20, y);
+      y += 20;
+
+      ctx.font = 'normal 10px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#475569';
+      ctx.fillText('Tanggal : ' + new Date().toLocaleDateString('id-ID'), 20, y);
+      y += 16;
+      ctx.fillText('Pemesan : ' + name, 20, y);
+      y += 16;
+      ctx.fillText('No. WA  : ' + phone, 20, y);
+      y += 16;
+      ctx.fillText('Diambil : ' + pickupTime, 20, y);
+      y += 16;
+      ctx.fillText('Packing : ' + packingMethod, 20, y);
+
+      y += 14;
+      ctx.setLineDash([4, 3]);
+      ctx.beginPath();
+      ctx.moveTo(20, y);
+      ctx.lineTo(width - 20, y);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      y += 20;
+      ctx.font = 'bold 10px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#1e293b';
+      ctx.fillText('MENU', 20, y);
+      ctx.textAlign = 'right';
+      ctx.fillText('SUBTOTAL', width - 20, y);
+
+      y += 16;
+      cartItems.forEach(item => {
+        ctx.textAlign = 'left';
+        ctx.font = 'bold 11px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = '#0f172a';
+        ctx.fillText(item.name, 20, y);
+        ctx.textAlign = 'right';
+        ctx.fillText('Rp ' + item.subtotal.toLocaleString('id-ID'), width - 20, y);
+        y += 14;
+        ctx.textAlign = 'left';
+        ctx.font = 'normal 10px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = '#64748b';
+        ctx.fillText(item.qty + 'x @ Rp ' + item.price.toLocaleString('id-ID'), 20, y);
+        y += 18;
+      });
+
+      y += 6;
+      ctx.setLineDash([4, 3]);
+      ctx.beginPath();
+      ctx.moveTo(20, y);
+      ctx.lineTo(width - 20, y);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      y += 20;
+      ctx.textAlign = 'left';
+      ctx.font = 'normal 11px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#475569';
+      ctx.fillText('Total Item:', 20, y);
+      ctx.textAlign = 'right';
+      ctx.font = 'bold 11px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText(totalQty + ' pcs', width - 20, y);
+
+      y += 18;
+      ctx.textAlign = 'left';
+      ctx.font = 'bold 12px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#0f172a';
+      ctx.fillText('Total Belanja:', 20, y);
+      ctx.textAlign = 'right';
+      ctx.font = 'bold 13px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#cb4914';
+      ctx.fillText('Rp ' + totalPrice.toLocaleString('id-ID'), width - 20, y);
+
+      y += 18;
+      ctx.textAlign = 'left';
+      ctx.font = 'bold 11px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#a73400';
+      ctx.fillText('Wajib DP 50%:', 20, y);
+      ctx.textAlign = 'right';
+      ctx.fillText('Rp ' + dpPrice.toLocaleString('id-ID'), width - 20, y);
+
+      y += 24;
+      ctx.textAlign = 'center';
+      ctx.font = 'italic 10px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillText('*Biaya box/kardus menyesuaikan konfirmasi admin WA', width / 2, y);
+
+      const link = document.createElement('link');
+      const a = document.createElement('a');
+      a.download = 'Struk_PO_NgenalRasa_' + name.replace(/\s+/g, '_') + '.jpg';
+      a.href = canvas.toDataURL('image/jpeg', 0.95);
+      a.click();
+    }
+
+    document.addEventListener('DOMContentLoaded', renderProductGrid);
+    renderProductGrid();
+</script>
+</body></html>
